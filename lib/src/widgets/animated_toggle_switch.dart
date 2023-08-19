@@ -130,6 +130,9 @@ class AnimatedToggleSwitch<T> extends _AnimatedToggleSwitchParent<T> {
   /// Callback for selecting a new value. The new [current] should be set here.
   final ChangeCallback<T>? onChanged;
 
+  /// Callback for deselecting the current value.
+  final ToggleOffCallback<T>? onToggleOff;
+
   /// Width of the border of the switch. For deactivating please set this to [0.0].
   final double borderWidth;
 
@@ -282,6 +285,7 @@ class AnimatedToggleSwitch<T> extends _AnimatedToggleSwitchParent<T> {
     this.animationCurve = Curves.easeInOutCirc,
     this.indicatorSize = const Size(48.0, double.infinity),
     this.onChanged,
+    this.onToggleOff,
     this.borderWidth = 2.0,
     this.style = const ToggleStyle(),
     this.styleBuilder,
@@ -345,6 +349,7 @@ class AnimatedToggleSwitch<T> extends _AnimatedToggleSwitchParent<T> {
     this.animationCurve = Curves.easeInOutCirc,
     Size indicatorSize = const Size(1.0, 1.0),
     this.onChanged,
+    this.onToggleOff,
     this.borderWidth = 2.0,
     this.style = const ToggleStyle(),
     this.styleBuilder,
@@ -407,6 +412,7 @@ class AnimatedToggleSwitch<T> extends _AnimatedToggleSwitchParent<T> {
     this.animationCurve = Curves.easeInOutCirc,
     this.indicatorSize = const Size.fromWidth(48.0),
     this.onChanged,
+    this.onToggleOff,
     this.borderWidth = 2.0,
     this.style = const ToggleStyle(),
     this.styleBuilder,
@@ -475,6 +481,7 @@ class AnimatedToggleSwitch<T> extends _AnimatedToggleSwitchParent<T> {
     AnimatedIconBuilder<T>? customIconBuilder,
     List<Widget>? iconList,
     this.onChanged,
+    this.onToggleOff,
     this.borderWidth = 2.0,
     this.style = const ToggleStyle(),
     this.styleBuilder,
@@ -572,6 +579,7 @@ class AnimatedToggleSwitch<T> extends _AnimatedToggleSwitchParent<T> {
     this.animationCurve = Curves.easeInOutCirc,
     this.indicatorSize = const Size.fromWidth(46.0),
     this.onChanged,
+    this.onToggleOff,
     this.borderWidth = 2.0,
     this.style = const ToggleStyle(),
     this.styleBuilder,
@@ -654,6 +662,7 @@ class AnimatedToggleSwitch<T> extends _AnimatedToggleSwitchParent<T> {
     this.animationCurve = Curves.easeInOutCirc,
     Size indicatorSize = const Size.square(1.0),
     this.onChanged,
+    this.onToggleOff,
     this.borderWidth = 2.0,
     this.style = const ToggleStyle(),
     this.styleBuilder,
@@ -852,6 +861,7 @@ class AnimatedToggleSwitch<T> extends _AnimatedToggleSwitchParent<T> {
     this.animationCurve = Curves.easeInOutCirc,
     this.indicatorSize = const Size.fromWidth(46.0),
     this.onChanged,
+    this.onToggleOff,
     this.borderWidth = 2.0,
     this.style = const ToggleStyle(),
     this.styleBuilder,
@@ -1034,6 +1044,7 @@ class AnimatedToggleSwitch<T> extends _AnimatedToggleSwitchParent<T> {
         current: current,
         values: values,
         onChanged: onChanged,
+        onToggleOff: onToggleOff,
         indicatorSize: indicatorSize,
         iconArrangement: _iconArrangement,
         iconsTappable: iconsTappable,

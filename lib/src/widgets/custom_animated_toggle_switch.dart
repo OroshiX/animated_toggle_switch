@@ -25,6 +25,7 @@ typedef IndicatorAppearingBuilder = Widget Function(
     BuildContext context, double value, Widget indicator);
 
 typedef ChangeCallback<T> = FutureOr<void> Function(T value);
+typedef ToggleOffCallback<T> = FutureOr<void> Function();
 
 typedef TapCallback = FutureOr<void> Function();
 
@@ -115,6 +116,9 @@ class CustomAnimatedToggleSwitch<T> extends StatefulWidget {
   /// Callback for selecting a new value. The new [current] should be set here.
   final ChangeCallback<T>? onChanged;
 
+  /// Callback for toggling off the current value. The former [current] should be set here.
+  final ToggleOffCallback<T>? onToggleOff;
+
   /// Space between adjacent icons.
   final double spacing;
 
@@ -194,6 +198,7 @@ class CustomAnimatedToggleSwitch<T> extends StatefulWidget {
     this.animationCurve = Curves.easeInOutCirc,
     this.indicatorSize = const Size(48.0, double.infinity),
     this.onChanged,
+    this.onToggleOff,
     this.spacing = 0.0,
     this.separatorBuilder,
     this.onTap,
@@ -247,7 +252,7 @@ class _CustomAnimatedToggleSwitchState<T>
   /// The current state of the movement of the indicator.
   late _AnimationInfo _animationInfo;
 
-  /// This list contains the last [Future]s returned by [widget.onTap] and [widget.onChanged].
+  /// This list contains the last [Future]s returned by [widget.onTap], [widget.onChanged] and [widget.onToggleOff].
   final List<Future<void>> _loadingFutures = [];
 
   late int _currentIndex;
@@ -357,6 +362,14 @@ class _CustomAnimatedToggleSwitchState<T>
   void _onChanged(T value) {
     if (!_isActive) return;
     final result = widget.onChanged?.call(value);
+    if (result is Future) {
+      _addLoadingFuture(result);
+    }
+  }
+
+  void _onToggleOff() {
+    if (!_isActive) return;
+    final result = widget.onToggleOff?.call();
     if (result is Future) {
       _addLoadingFuture(result);
     }
@@ -651,6 +664,10 @@ class _CustomAnimatedToggleSwitchState<T>
                                       if (!widget.iconsTappable) return;
                                       T newValue = _valueFromPosition(
                                           details.localPosition.dx, properties);
+                                      if (widget.allowUnlistedValues &&
+                                          newValue == widget.current) {
+                                        _onToggleOff();
+                                      }
                                       if (newValue == widget.current) return;
                                       _onChanged(newValue);
                                     },
